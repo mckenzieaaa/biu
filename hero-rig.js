@@ -17,7 +17,7 @@ function drawLayeredHero(x,y,face){const complete=heroRigData.every(q=>ready(rig
  const head=()=>{body();rigPivot(205,160,-.009*Math.sin(ph-.4)*w)};
  const arms=(near)=>{body();rigPivot(near?137:245,near?210:212,(near?armSwing:-armSwing)-(near?1.03:.35)*spell)};
  const skip=/^(thigh|calf|boot)_/;
- for(const q of heroRigData){const n=q.name;if(skip.test(n))continue;let tr=body;
+ for(const q of heroRigData){const n=q.name;if(skip.test(n)||n==='star_brooch')continue;let tr=body;
  if(n==='hair_back'||n==='hair_front'||n==='face_neck'||n.startsWith('eye_')||n.startsWith('brow_')||n==='mouth')tr=head;
  if(n.startsWith('upperarm_')||n.startsWith('forearm_')||n.startsWith('hand_'))tr=()=>arms(n.endsWith('near'));
  if(n==='coat_panel_near'||n==='coat_panel_far'||n==='skirt')tr=()=>{body();rigPivot(180,280,.015*Math.sin(ph+.6)*w)};
@@ -29,4 +29,4 @@ function drawLayeredHero(x,y,face){const complete=heroRigData.every(q=>ready(rig
 }
 drawAnimatedHero=drawLayeredHero;
 const rigUpdate=update;update=function(dt){const x=p?.x||0,y=p?.y||0;rigUpdate(dt);rigStep(dt,(p?.x||0)-x,(p?.y||0)-y)};
-const rigBegin=beginStage;beginStage=function(){rigMotion.phase=0;rigMotion.weight=0;rigMotion.turn=1;rigBegin()};
+const rigBegin=beginStage;beginStage=function(...args){rigMotion.phase=0;rigMotion.weight=0;rigMotion.turn=1;rigBegin(...args)};
